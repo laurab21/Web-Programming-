@@ -13,13 +13,13 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    password: str = Field(..., min_length=8, description="Mot de passe de l'utilisateur")
+    password: str = Field(..., min_length=4, description="Mot de passe de l'utilisateur")
 
 
 class UserUpdate(BaseModel):
     email: Optional[EmailStr] = Field(None, description="Email de l'utilisateur")
     full_name: Optional[str] = Field(None, min_length=1, max_length=100, description="Nom complet de l'utilisateur")
-    password: Optional[str] = Field(None, min_length=8, description="Mot de passe de l'utilisateur")
+    password: Optional[str] = Field(None, min_length=4, description="Mot de passe de l'utilisateur")
     is_active: Optional[bool] = Field(None, description="Indique si l'utilisateur est actif")
     is_admin: Optional[bool] = Field(None, description="Indique si l'utilisateur est administrateur")
     phone: Optional[str] = Field(None, max_length=20, description="Numéro de téléphone")
@@ -32,7 +32,7 @@ class UserInDBBase(UserBase):
     updated_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class User(UserInDBBase):

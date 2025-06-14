@@ -15,7 +15,7 @@ class LoanRepository(BaseRepository[Loan, None, None]):
         Récupère les emprunts actifs (non retournés).
         """
         return self.db.query(Loan).filter(Loan.return_date == None).all()
-
+    
     def get_overdue_loans(self) -> List[Loan]:
         """
         Récupère les emprunts en retard.
@@ -25,19 +25,19 @@ class LoanRepository(BaseRepository[Loan, None, None]):
             Loan.return_date == None,
             Loan.due_date < now
         ).all()
-
+    
     def get_loans_by_user(self, *, user_id: int) -> List[Loan]:
         """
         Récupère les emprunts d'un utilisateur.
         """
         return self.db.query(Loan).filter(Loan.user_id == user_id).all()
-
+    
     def get_loans_by_book(self, *, book_id: int) -> List[Loan]:
         """
         Récupère les emprunts d'un livre.
         """
         return self.db.query(Loan).filter(Loan.book_id == book_id).all()
-
+    
     def get_with_details(self, *, id: int) -> Optional[Loan]:
         """
         Récupère un emprunt avec les détails du livre et de l'utilisateur.
@@ -46,7 +46,7 @@ class LoanRepository(BaseRepository[Loan, None, None]):
             joinedload(Loan.user),
             joinedload(Loan.book)
         ).filter(Loan.id == id).first()
-
+    
     def get_multi_with_details(self, *, skip: int = 0, limit: int = 100) -> List[Loan]:
         """
         Récupère plusieurs emprunts avec les détails des livres et des utilisateurs.
@@ -55,7 +55,7 @@ class LoanRepository(BaseRepository[Loan, None, None]):
             joinedload(Loan.user),
             joinedload(Loan.book)
         ).offset(skip).limit(limit).all()
-
+    
     def get_loans_stats(self) -> Dict[str, Any]:
         """
         Récupère des statistiques sur les emprunts.
@@ -67,7 +67,7 @@ class LoanRepository(BaseRepository[Loan, None, None]):
             Loan.return_date == None,
             Loan.due_date < now
         ).scalar() or 0
-
+        
         # Emprunts par mois (12 derniers mois)
         start_date = now - timedelta(days=365)
         loans_by_month = self.db.query(
@@ -78,9 +78,9 @@ class LoanRepository(BaseRepository[Loan, None, None]):
         ).group_by(
             func.strftime("%Y-%m", Loan.loan_date)
         ).all()
-
+        
         loans_by_month_dict = {month: count for month, count in loans_by_month}
-
+        
         return {
             "total_loans": total_loans,
             "active_loans": active_loans,

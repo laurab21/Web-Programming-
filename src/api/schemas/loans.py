@@ -1,6 +1,8 @@
 from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
+from .users import User
+from .books import Book
 
 
 class LoanBase(BaseModel):
@@ -28,7 +30,7 @@ class LoanInDBBase(LoanBase):
     updated_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Loan(LoanInDBBase):

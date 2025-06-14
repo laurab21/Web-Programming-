@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
-from typing import List, Any
+from typing import List, Any, Optional
 
 from ...db.session import get_db
 from ...models.books import Book as BookModel
@@ -8,17 +8,11 @@ from ..schemas.books import Book, BookCreate, BookUpdate
 from ...repositories.books import BookRepository
 from ...services.books import BookService
 from ..dependencies import get_current_active_user, get_current_admin_user
-
-#pagination 
-from typing import Optional
-from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
-
 from ...utils.pagination import PaginationParams, paginate, Page
-from ...models.books import Book as BookModel
-from ..schemas.books import Book, BookCreate, BookUpdate
-from ...repositories.books import BookRepository
 
+# este si necesitas or_ y book_category:
+from sqlalchemy import or_
+from ...models.categories import book_category
 
 router = APIRouter()
 

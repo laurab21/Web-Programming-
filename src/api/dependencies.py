@@ -1,3 +1,4 @@
+
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
@@ -32,11 +33,11 @@ def get_current_user(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Impossible de valider les informations d'identification",
         )
-
+    
     repository = UserRepository(User, db)
     service = UserService(repository)
     user = service.get(id=token_data.sub)
-
+    
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

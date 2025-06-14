@@ -1,3 +1,6 @@
 2025-06-12 23:02:07,662 - src.db.init_db - INFO - Catégories créées
 2025-06-12 23:02:07,666 - src.db.init_db - INFO - Livres créés
 2025-06-12 23:02:07,669 - src.db.init_db - INFO - Emprunts créés
+2025-06-13 00:17:10,193 - src.db.init_db - INFO - Catégories créées
+2025-06-13 00:17:10,197 - src.db.init_db - INFO - Livres créés
+2025-06-13 00:17:10,201 - src.db.init_db - INFO - Emprunts créés
